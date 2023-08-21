@@ -25,6 +25,7 @@ export class App extends Component {
           evt.target.reset();
         }}>
           <input type="text" name="query" />
+          <button type="submit"></button>
         </form>
       </div>
 
