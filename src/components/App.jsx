@@ -10,7 +10,8 @@ export class App extends Component {
   changeQuery = (newQuery) => {
     this.setState({
       query: newQuery,
-       images: [],
+      images: [],
+      page: 1
     });
    };
 
