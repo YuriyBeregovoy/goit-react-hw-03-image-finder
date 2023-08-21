@@ -10,10 +10,16 @@ export class App extends Component {
   changeQuery = (newQuery) => {
     this.setState({
       query: newQuery,
+       images: [],
     });
    };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.query !== this.state.query) {
+       
 
+     }
+   }
 
   render() {
    return (
@@ -25,7 +31,7 @@ export class App extends Component {
           evt.target.reset();
         }}>
           <input type="text" name="query" />
-          <button type="submit"></button>
+          <button type="submit">Submit</button>
         </form>
       </div>
 
