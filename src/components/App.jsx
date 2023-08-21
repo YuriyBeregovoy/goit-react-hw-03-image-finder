@@ -15,11 +15,16 @@ export class App extends Component {
    };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.query !== this.state.query) {
+    if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
        
 
      }
-   }
+  }
+  
+
+  handleLoadMore = () => {
+    this.setState(prevState => ({page: prevState.page + 1}))
+  }
 
   render() {
    return (
@@ -37,7 +42,7 @@ export class App extends Component {
 
       <div>Gallery</div>
       <div>
-        <button>Load more</button>
+        <button onClick={this.handleLoadMore}>Load more</button>
       </div>
 
     </div>
