@@ -1,22 +1,30 @@
-export const App = () => {
+import { Component } from "react";
+
+export class App extends Component {
   state = {
     query: "",
     images: [],
     page: 1
 }
 
-  chageQuery = () => { };
+  changeQuery = (newQuery) => {
+    this.setState({
+      query: newQuery,
+    });
+   };
 
 
 
-
-
-  return (
+  render() {
+   return (
     <div>
       <div>
-        <form action="">
-          <input type="text" />
-          <button></button>
+        <form onSubmit={evt => {
+          evt.preventDefault();
+          this.changeQuery(evt.target.elements.query.value);
+          evt.target.reset();
+        }}>
+          <input type="text" name="query" />
         </form>
       </div>
 
@@ -27,4 +35,7 @@ export const App = () => {
 
     </div>
   );
+}
+
+ 
 };
