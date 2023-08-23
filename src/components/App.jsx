@@ -78,7 +78,7 @@ handleLoadMore = () => {
           <button type="submit">Submit</button>
         </form>
       </div>
-       {this.state.isLoading ? (<InfinitySpin width='200' color="#4fa94d" />) :
+       {this.state.isLoading ? (<InfinitySpin width='100' color="#4fa94d" />) :
          (<ImageGallery imagesArea={this.state.imagesGallery} />
 )}
 
