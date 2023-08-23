@@ -33,7 +33,7 @@ export class App extends Component {
   fetchAndSetImages = async () => {
     const { query, page } = this.state;
     const imagesGallery = await fetchImages(query, page);
-    // console.log(imagesGallery)
+    console.log(imagesGallery)
     this.setState(prevState => ({
       imagesGallery: [...prevState.imagesGallery, ...imagesGallery]
     }));
