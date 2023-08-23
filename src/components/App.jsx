@@ -1,5 +1,6 @@
 import { fetchImages } from "api";
 import { Component } from "react";
+import Notiflix from 'notiflix';
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 
 export class App extends Component {
@@ -58,8 +59,11 @@ handleLoadMore = () => {
     <div>
       <div>
         <form onSubmit={evt => {
-          evt.preventDefault();
-          this.changeQuery(evt.target.elements.query.value);
+           evt.preventDefault();
+           const searchQuery = evt.target.elements.query.value.trim();
+           if ( searchQuery) { this.changeQuery(searchQuery); } else {
+             Notiflix.Notify.failure('Please enter a valid search query.');
+          }
           evt.target.reset();
         }}>
           <input type="text" name="query" />
