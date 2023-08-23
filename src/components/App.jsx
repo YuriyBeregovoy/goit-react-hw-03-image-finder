@@ -12,10 +12,11 @@ export class App extends Component {
 
   changeQuery = (newQuery) => {
     this.setState({
-      query: newQuery,
+      query: `${Date.now()}/${newQuery}`,
       imagesGallery: [],
       page: 1
     });
+
   };
   
 
@@ -27,28 +28,30 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
       this.fetchAndSetImages();
-     }
+    }
   }
   
   fetchAndSetImages = async () => {
-    const { query, page } = this.state;
-    const imagesGallery = await fetchImages(query, page);
-    console.log(imagesGallery)
-    this.setState(prevState => ({
-      imagesGallery: [...prevState.imagesGallery, ...imagesGallery]
-    }));
+    const { query, page, imagesGallery } = this.state;
+    const indexOfSlash = query.indexOf("/");
+    const queryAfterSlash = query.slice(indexOfSlash + 1);
+
+    const newImages = await fetchImages(queryAfterSlash, page);
+    this.setState({
+  imagesGallery: [...imagesGallery, ...newImages],
+});
   }
 
 
 
 
-  handleLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1
-    }), () => {
-      this.fetchAndSetImages();
-    });
-  }
+handleLoadMore = () => {
+  this.setState(prevState => ({
+    page: prevState.page + 1
+  }), () => {
+    this.fetchAndSetImages(); 
+  });
+}
 
   render() {
    return (
