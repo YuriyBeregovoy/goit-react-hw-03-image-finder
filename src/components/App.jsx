@@ -1,5 +1,6 @@
 import { fetchImages } from "api";
 import { Component } from "react";
+import { ImageGallery } from "./ImageGallery/ImageGallery";
 
 export class App extends Component {
   state = {
@@ -19,21 +20,34 @@ export class App extends Component {
   
 
   async componentDidMount() {
-    const imagesGallery = await fetchImages();
-    console.log(imagesGallery);
-    this.setState({ imagesGallery });
+   await this.fetchAndSetImages();
   
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
-       console.log(this.state.query)
+      this.fetchAndSetImages();
      }
   }
   
+  fetchAndSetImages = async () => {
+    const { query, page } = this.state;
+    const imagesGallery = await fetchImages(query, page);
+    // console.log(imagesGallery)
+    this.setState(prevState => ({
+      imagesGallery: [...prevState.imagesGallery, ...imagesGallery]
+    }));
+  }
+
+
+
 
   handleLoadMore = () => {
-    this.setState(prevState => ({page: prevState.page + 1}))
+    this.setState(prevState => ({
+      page: prevState.page + 1
+    }), () => {
+      this.fetchAndSetImages();
+    });
   }
 
   render() {
@@ -50,7 +64,7 @@ export class App extends Component {
         </form>
       </div>
 
-      <div>Gallery</div>
+       <ImageGallery imagesArea={this.state.imagesGallery} />
       <div>
         <button onClick={this.handleLoadMore}>Load more</button>
       </div>
