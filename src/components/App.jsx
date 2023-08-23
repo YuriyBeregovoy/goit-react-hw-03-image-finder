@@ -1,6 +1,7 @@
 import { fetchImages } from "api";
 import { Component } from "react";
 import Notiflix from 'notiflix';
+import { InfinitySpin } from  'react-loader-spinner'
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 
 export class App extends Component {
@@ -9,6 +10,7 @@ export class App extends Component {
    imagesGallery: [],
     page: 1,
     hasImages: false,
+    isLoading: false,
 }
 
 
@@ -31,6 +33,8 @@ export class App extends Component {
   }
   
   fetchAndSetImages = async () => {
+     this.setState({ isLoading: true });
+
     const { query, page, imagesGallery } = this.state;
     const indexOfSlash = query.indexOf("/");
     const queryAfterSlash = query.slice(indexOfSlash + 1);
@@ -38,12 +42,12 @@ export class App extends Component {
 
     if (newImages.length === 0) {
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-      
     }
     
     this.setState({
       imagesGallery: [...imagesGallery, ...newImages],
       hasImages: true && newImages.length > 0,
+      isLoading: false,
 });
   }
 
@@ -74,8 +78,10 @@ handleLoadMore = () => {
           <button type="submit">Submit</button>
         </form>
       </div>
+       {this.state.isLoading ? (<InfinitySpin width='200' color="#4fa94d" />) :
+         (<ImageGallery imagesArea={this.state.imagesGallery} />
+)}
 
-       <ImageGallery imagesArea={this.state.imagesGallery} />
       <div>
         {this.state.hasImages && (<button onClick={this.handleLoadMore}>Load more</button>)}
       </div>
