@@ -1,24 +1,33 @@
+import { fetchImages } from "api";
 import { Component } from "react";
 
 export class App extends Component {
   state = {
     query: "",
-    images: [],
+   imagesGallery: [],
     page: 1
 }
+
 
   changeQuery = (newQuery) => {
     this.setState({
       query: newQuery,
-      images: [],
+      imagesGallery: [],
       page: 1
     });
-   };
+  };
+  
+
+  async componentDidMount() {
+    const imagesGallery = await fetchImages();
+    console.log(imagesGallery);
+    this.setState({ imagesGallery });
+  
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
-       
-
+       console.log(this.state.query)
      }
   }
   
