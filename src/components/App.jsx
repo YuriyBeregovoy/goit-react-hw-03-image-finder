@@ -7,24 +7,22 @@ export class App extends Component {
   state = {
     query: "",
    imagesGallery: [],
-    page: 1
+    page: 1,
+    hasImages: false,
 }
 
 
   changeQuery = (newQuery) => {
-    this.setState({
+ if (newQuery !== "") {this.setState({
       query: `${Date.now()}/${newQuery}`,
       imagesGallery: [],
       page: 1
-    });
+    });}
 
   };
   
 
-  async componentDidMount() {
-   await this.fetchAndSetImages();
-  
-  }
+
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
@@ -36,10 +34,16 @@ export class App extends Component {
     const { query, page, imagesGallery } = this.state;
     const indexOfSlash = query.indexOf("/");
     const queryAfterSlash = query.slice(indexOfSlash + 1);
-
     const newImages = await fetchImages(queryAfterSlash, page);
+
+    if (newImages.length === 0) {
+      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+      
+    }
+    
     this.setState({
-  imagesGallery: [...imagesGallery, ...newImages],
+      imagesGallery: [...imagesGallery, ...newImages],
+      hasImages: true && newImages.length > 0,
 });
   }
 
@@ -73,7 +77,7 @@ handleLoadMore = () => {
 
        <ImageGallery imagesArea={this.state.imagesGallery} />
       <div>
-        <button onClick={this.handleLoadMore}>Load more</button>
+        {this.state.hasImages && (<button onClick={this.handleLoadMore}>Load more</button>)}
       </div>
 
     </div>
