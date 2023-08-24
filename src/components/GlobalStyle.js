@@ -5,18 +5,32 @@ import "modern-normalize";
 
 export const GlobalStyle = createGlobalStyle`
 
-
-body {
-  font-family: 'Roboto', 'sans-serif';
-    color: #434455;
-  font-size: 14px;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  color: #212121;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 h1,
@@ -44,11 +58,7 @@ button {
   cursor: pointer;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
+
 
 
 address{
