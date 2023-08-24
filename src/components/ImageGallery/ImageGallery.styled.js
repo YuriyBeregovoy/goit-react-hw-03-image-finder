@@ -4,10 +4,15 @@ import styled from "styled-components";
 export const GalleryStyle = styled.ul`
        
 
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: 10px;
-        row-gap: 20px;
-        justify-content: center;
+      display: grid;
+  max-width: calc(100vw - 48px);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
 
 `;
