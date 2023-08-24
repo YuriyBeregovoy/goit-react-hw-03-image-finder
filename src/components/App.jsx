@@ -1,7 +1,10 @@
 import { fetchImages } from "api";
 import { Component } from "react";
 import Notiflix from 'notiflix';
-import { InfinitySpin } from  'react-loader-spinner'
+import { InfinitySpin } from 'react-loader-spinner'
+import * as basicLightbox from 'basiclightbox'
+import 'basiclightbox/dist/basicLightbox.min.css';
+
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 
 export class App extends Component {
@@ -41,7 +44,6 @@ export class App extends Component {
     this.setState({ isLoading: true });
     try {
        const newImages = await fetchImages(queryAfterSlash, page);
-    console.log(newImages);
 
     if (newImages.length === 0) {
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
@@ -65,13 +67,21 @@ export class App extends Component {
   this.setState(prevState => ({
     page: prevState.page + 1
   }), );
-}
+  }
+  
+
+openModal = (imageUrl) => {
+  const instance = basicLightbox.create(`<img src="${imageUrl}" width="800" height="600">`);
+  instance.show();
+  this.setState({ modalInstance: instance });
+};
+  
 
   render() {
-     const {hasImages, isLoading, imagesGallery} = this.state;
+    const { hasImages, isLoading, imagesGallery } = this.state;
    return (
     <div>
-      <div>
+      <div> 
         <form onSubmit={evt => {
            evt.preventDefault();
            const searchQuery = evt.target.elements.query.value.trim();
@@ -84,7 +94,7 @@ export class App extends Component {
           <button type="submit">Submit</button>
         </form>
        </div>
-      {imagesGallery.length > 0 && <ImageGallery imagesArea={this.state.imagesGallery} />}
+      {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
        {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
 
       <div>
