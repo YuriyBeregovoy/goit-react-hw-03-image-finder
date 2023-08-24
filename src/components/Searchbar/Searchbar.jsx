@@ -1,10 +1,10 @@
-import { SearchContainer, SearchForm } from "./Searchbar.styled"
+import { ButtonForm, InputStyle, SearchButtonLabel, SearchContainer, SearchForm } from "./Searchbar.styled"
 
 export const Searchbar = ({onSubmit}) => {
   return (<SearchContainer>
     <SearchForm onSubmit={onSubmit}>
-          <input type="text" name="query" />
-          <button type="submit">Submit</button>
+          <InputStyle type="text" name="query" placeholder="Search images..."/>
+          <ButtonForm type="submit"><SearchButtonLabel htmlFor=""></SearchButtonLabel></ButtonForm>
         </SearchForm>
        </SearchContainer>
 )
