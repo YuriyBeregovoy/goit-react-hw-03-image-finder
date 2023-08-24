@@ -8,6 +8,7 @@ import 'basiclightbox/dist/basicLightbox.min.css';
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { LoadMoreButton } from "./Button/LoadMoreButton";
+import { Layout } from "./Layout";
 
 export class App extends Component {
   state = {
@@ -82,7 +83,7 @@ openModal = (imageUrl) => {
   render() {
     const { hasImages, isLoading, imagesGallery } = this.state;
     return (
-    <div>
+    <Layout>
         <Searchbar onSubmit={evt => {
            evt.preventDefault();
            const searchQuery = evt.target.elements.query.value.trim();
@@ -94,7 +95,7 @@ openModal = (imageUrl) => {
       {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
        {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
        {hasImages && ( <LoadMoreButton onClick={this.handleLoadMore}/>)}
-    </div>
+    </Layout>
   );
 }
 
