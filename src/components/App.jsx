@@ -61,8 +61,7 @@ export class App extends Component {
   }
 
 
-  handleLoadMore = (evt) => {
-  evt.preventDefault();
+  handleLoadMore = () => {
   this.setState(prevState => ({
     page: prevState.page + 1
   }), );
