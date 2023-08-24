@@ -94,8 +94,6 @@ openModal = (imageUrl) => {
       {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
        {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
        {hasImages && ( <LoadMoreButton onClick={this.handleLoadMore}/>)}
-      
-
     </div>
   );
 }
