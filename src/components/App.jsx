@@ -7,6 +7,7 @@ import 'basiclightbox/dist/basicLightbox.min.css';
 
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Searchbar } from "./Searchbar/Searchbar";
+import { LoadMoreButton } from "./Button/LoadMoreButton";
 
 export class App extends Component {
   state = {
@@ -92,10 +93,8 @@ openModal = (imageUrl) => {
         }} />  
       {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
        {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
-
-      <div>
-        {hasImages && (<button type="button" onClick={this.handleLoadMore}>Load more</button>)}
-      </div>
+       {hasImages && ( <LoadMoreButton onClick={this.handleLoadMore}/>)}
+      
 
     </div>
   );
