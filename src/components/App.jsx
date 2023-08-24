@@ -6,6 +6,7 @@ import * as basicLightbox from 'basiclightbox'
 import 'basiclightbox/dist/basicLightbox.min.css';
 
 import { ImageGallery } from "./ImageGallery/ImageGallery";
+import { Searchbar } from "./Searchbar/Searchbar";
 
 export class App extends Component {
   state = {
@@ -79,21 +80,16 @@ openModal = (imageUrl) => {
 
   render() {
     const { hasImages, isLoading, imagesGallery } = this.state;
-   return (
+    return (
     <div>
-      <div> 
-        <form onSubmit={evt => {
+        <Searchbar onSubmit={evt => {
            evt.preventDefault();
            const searchQuery = evt.target.elements.query.value.trim();
            if ( searchQuery) { this.changeQuery(searchQuery); } else {
              Notiflix.Notify.failure('Please enter a valid search query.');
           }
           evt.target.reset();
-        }}>
-          <input type="text" name="query" />
-          <button type="submit">Submit</button>
-        </form>
-       </div>
+        }} />  
       {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
        {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
 
