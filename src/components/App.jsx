@@ -11,6 +11,7 @@ export class App extends Component {
     page: 1,
     hasImages: false,
     isLoading: false,
+    error: null,
 }
 
 
@@ -25,20 +26,22 @@ export class App extends Component {
   
 
 
-
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
+    if (prevState.query !== this.state.query || prevState.page < this.state.page) {
       this.fetchAndSetImages();
     }
   }
-  
-  fetchAndSetImages = async () => {
-     this.setState({ isLoading: true });
 
+
+  fetchAndSetImages = async () => {
     const { query, page, imagesGallery } = this.state;
     const indexOfSlash = query.indexOf("/");
     const queryAfterSlash = query.slice(indexOfSlash + 1);
-    const newImages = await fetchImages(queryAfterSlash, page);
+
+    this.setState({ isLoading: true });
+    try {
+       const newImages = await fetchImages(queryAfterSlash, page);
+    console.log(newImages);
 
     if (newImages.length === 0) {
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
@@ -47,22 +50,26 @@ export class App extends Component {
     this.setState({
       imagesGallery: [...imagesGallery, ...newImages],
       hasImages: true && newImages.length > 0,
-      isLoading: false,
-});
+    });
+
+    } catch (error) {
+      this.setState({ error });
+       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    } finally {
+      this.setState({ isLoading: false });
+    }
   }
 
 
-
-
-handleLoadMore = () => {
+  handleLoadMore = (evt) => {
+  evt.preventDefault();
   this.setState(prevState => ({
     page: prevState.page + 1
-  }), () => {
-    this.fetchAndSetImages(); 
-  });
+  }), );
 }
 
   render() {
+     const {hasImages, isLoading, imagesGallery} = this.state;
    return (
     <div>
       <div>
@@ -77,18 +84,16 @@ handleLoadMore = () => {
           <input type="text" name="query" />
           <button type="submit">Submit</button>
         </form>
-      </div>
-       {this.state.isLoading ? (<InfinitySpin width='100' color="#4fa94d" />) :
-         (<ImageGallery imagesArea={this.state.imagesGallery} />
-)}
+       </div>
+      {imagesGallery.length > 0 && <ImageGallery imagesArea={this.state.imagesGallery} />}
+       {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
 
       <div>
-        {this.state.hasImages && (<button onClick={this.handleLoadMore}>Load more</button>)}
+        {hasImages && (<button type="button" onClick={this.handleLoadMore}>Load more</button>)}
       </div>
 
     </div>
   );
 }
 
- 
-};
+ };
