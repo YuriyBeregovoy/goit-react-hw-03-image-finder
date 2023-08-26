@@ -83,19 +83,22 @@ openModal = (imageUrl) => {
   render() {
     const { hasImages, isLoading, imagesGallery } = this.state;
     return (
-    <Layout>
-        <Searchbar onSubmit={evt => {
-           evt.preventDefault();
-           const searchQuery = evt.target.elements.query.value.trim();
-           if ( searchQuery) { this.changeQuery(searchQuery); } else {
-             Notiflix.Notify.failure('Please enter a valid search query.');
-          }
-          evt.target.reset();
+  <div>
+      
+          <Searchbar onSubmit={evt => {
+             evt.preventDefault();
+             const searchQuery = evt.target.elements.query.value.trim();
+             if ( searchQuery) { this.changeQuery(searchQuery); } else {
+               Notiflix.Notify.failure('Please enter a valid search query.');
+            }
+            evt.target.reset();
         }} />  
-      {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
-       {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
-       {hasImages && ( <LoadMoreButton onClick={this.handleLoadMore}/>)}
-    </Layout>
+      <Layout>
+        {imagesGallery.length > 0 && <ImageGallery imagesArea={imagesGallery} openModal={this.openModal} />}
+         {isLoading && <InfinitySpin width='100' color="#4fa94d" />} 
+         {hasImages && ( <LoadMoreButton onClick={this.handleLoadMore}/>)}
+      </Layout>
+  </div>
   );
 }
 
